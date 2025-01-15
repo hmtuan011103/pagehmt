@@ -1,0 +1,21 @@
+DynamicButton
+
+<!-- Gia đình -->
+<DynamicButton type="family" @click="navigateToMemory" />
+
+<!-- Tình yêu -->
+<DynamicButton type="love" @click="navigateToMemory" />
+
+<!-- Bạn bè -->
+<DynamicButton type="friend" @click="navigateToMemory" />
+
+<!-- Khác -->
+<DynamicButton type="other" @click="navigateToMemory" />
+
+<!-- Với text tùy chỉnh -->
+<DynamicButton type="love" text="Xem chi tiết" @click="viewDetails" />
+
+<!-- Sử dụng slot -->
+<DynamicButton type="family">
+  Lưu trữ kỷ niệm gia đình
+</DynamicButton>
