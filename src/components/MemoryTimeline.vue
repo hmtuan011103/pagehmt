@@ -18,11 +18,15 @@
           {{ item.description }}
         </p>
 
-        <DynamicButton
-            type="love"
-            text="Xem"
-            width=""
-            @click="openModal(item)"
+        <OTPPopup
+            button-type="love"
+            text-content="Xem"
+            width-button=""
+            title="Nhập mã để mở khóa kỷ niệm"
+            description="Vui lòng nhập mã 6 số để xem kỷ niệm này"
+            border-color="red"
+            correct-o-t-p="080125"
+            :on-success="() => openModal(item)"
         />
       </li>
     </ol>
@@ -52,6 +56,7 @@
 <script setup>
 import { ref } from 'vue';
 import DynamicButton from "@/components/DynamicButton.vue";
+import OTPPopup from "@/components/OTPPopup.vue";
 
 const props = defineProps({
   items: {

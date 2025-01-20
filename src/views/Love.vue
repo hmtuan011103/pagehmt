@@ -25,7 +25,16 @@
           </p>
 
           <!-- Tình yêu -->
-          <DynamicButton type="love" @click="navigateToMemory" />
+          <div class="max-w-md m-auto">
+            <OTPPopup
+                button-type="love"
+                title="Nhập mã để mở khóa kỷ niệm"
+                description="Vui lòng nhập mã 6 số để xem kỷ niệm"
+                border-color="red"
+                correct-o-t-p="080125"
+                :on-success="() => router.push({ name: 'love-show' })"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -55,7 +64,14 @@
         </p>
 
         <!-- Tình yêu -->
-        <DynamicButton type="love" @click="navigateToMemory" />
+        <OTPPopup
+            button-type="love"
+            title="Nhập mã để mở khóa kỷ niệm"
+            description="Vui lòng nhập mã 6 số để xem kỷ niệm này"
+            border-color="#f87171"
+            correct-o-t-p="080125"
+            :on-success="() => router.push({ name: 'love-show' })"
+        />
       </div>
     </div>
   </div>
@@ -85,7 +101,14 @@
         </p>
 
         <!-- Tình yêu -->
-        <DynamicButton type="love" @click="navigateToMemory" />
+        <OTPPopup
+            button-type="love"
+            title="Nhập mã để mở khóa kỷ niệm"
+            description="Vui lòng nhập mã 6 số để xem kỷ niệm này"
+            border-color="red"
+            correct-o-t-p="080125"
+            :on-success="() => router.push({ name: 'love-show' })"
+        />
       </div>
     </div>
   </div>
@@ -93,9 +116,9 @@
 
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
-import DynamicButton from "@/components/DynamicButton.vue"
 import { useRouter } from 'vue-router'
 import {useBreadcrumbsStore} from "@/store/breadcrumbs.js";
+import OTPPopup from "@/components/OTPPopup.vue";
 
 const router = useRouter()
 const breadcrumbsStore = useBreadcrumbsStore()
@@ -122,9 +145,5 @@ const formatDate = (date) => {
     month: 'long',
     day: 'numeric'
   }).format(date)
-}
-
-const navigateToMemory = () => {
-  router.push({ name: 'love-show' })
 }
 </script>
