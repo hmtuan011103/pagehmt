@@ -1,7 +1,8 @@
 <template>
   <button
       :class="[
-      'w-full px-4 py-2 text-sm font-medium text-white',
+       width,
+      'px-4 py-2 text-sm font-medium text-white',
       'bg-gradient-to-r from-red-500 to-rose-500 rounded-lg',
       'transition-all duration-300 ease-out group',
       'hover:from-red-600 hover:to-rose-600',
@@ -79,6 +80,10 @@ export default {
     text: {
       type: String,
       default: 'Đi đến kỉ niệm'
+    },
+    width: {
+      type: String,
+      default: 'w-full '
     }
   },
   emits: ['click']

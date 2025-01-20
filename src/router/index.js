@@ -1,51 +1,84 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {loadLayoutMiddleware} from "@/router/middleware/loadLayoutMiddleware";
-import Family from "@/views/Family.vue";
-import Love from "@/views/Love.vue";
-import Friend from "@/views/Friend.vue";
-import Another from "@/views/Another.vue";
+
+const Family = () => import("@/views/Family.vue");
+const Love = () => import("@/views/Love.vue");
+const Friend = () => import("@/views/Friend.vue");
+const Another = () => import("@/views/Another.vue");
+const LoveShow = () => import("@/views/LovePage/LoveShow.vue");
 
 const routes = [
     {
-        path: '/',
-        name: 'family',
-        component: Family,
-        meta: {
-            layout: 'AppLayoutGuest'
-        }
+        group: 'family',
+        routes: [
+            {
+                path: '/',
+                name: 'family',
+                component: Family,
+                meta: {
+                    layout: 'AppLayoutGuest'
+                }
+            }
+        ]
     },
     {
-        path: '/love',
-        name: 'love',
-        component: Love,
-        meta: {
-            layout: 'AppLayoutGuest'
-        }
+        group: 'love',
+        routes: [
+            {
+                path: '/love',
+                meta: {
+                    layout: 'AppLayoutGuest'
+                },
+                children: [
+                    {
+                        path: '',
+                        name: 'love',
+                        component: Love
+                    },
+                    {
+                        path: 'show',
+                        name: 'love-show',
+                        component: LoveShow
+                    }
+                ]
+            }
+        ]
     },
     {
-        path: '/friend',
-        name: 'friend',
-        component: Friend,
-        meta: {
-            layout: 'AppLayoutGuest'
-        }
+        group: 'friend',
+        routes: [
+            {
+                path: '/friend',
+                name: 'friend',
+                component: Friend,
+                meta: {
+                    layout: 'AppLayoutGuest'
+                }
+            }
+        ]
     },
     {
-        path: '/another',
-        name: 'another',
-        component: Another,
-        meta: {
-            layout: 'AppLayoutGuest'
-        }
+        group: 'another',
+        routes: [
+            {
+                path: '/another',
+                name: 'another',
+                component: Another,
+                meta: {
+                    layout: 'AppLayoutGuest'
+                }
+            }
+        ]
     }
-]
+];
+
+const flattenedRoutes = routes.flatMap(group => group.routes);
 
 const router = createRouter({
     history: createWebHistory('/'),
-    routes
-})
+    routes: flattenedRoutes
+});
 
-// Before each route changing the loadLayoutMiddleware middleware is executing.
 router.beforeEach(loadLayoutMiddleware)
 
 export default router
