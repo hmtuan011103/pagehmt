@@ -16,8 +16,8 @@
         <div class="h-6 w-2/3 bg-gray-600 rounded mb-3"></div>
 
         <!-- Skeleton Description -->
-        <div class="h-4 w-5/6 bg-gray-700 rounded mb-6"></div>
-        <div class="h-4 w-full bg-gray-700 rounded mb-2"></div>
+        <div class="h-4 w-1/3 bg-gray-700 rounded mb-2"></div>
+        <div class="h-4 w-full bg-gray-700 rounded mb-6"></div>
 
         <!-- Skeleton Button -->
         <div class="h-10 w-full bg-gray-600 rounded"></div>
