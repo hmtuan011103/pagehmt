@@ -7,7 +7,7 @@
         ref="breadcrumb"
     >
       <div class="container mx-auto px-4">
-        <SimpleWithChevrons :pages="breadcrumbsStore.pages" />
+        <BackButton />
       </div>
     </div>
 
@@ -27,12 +27,10 @@
 
 <script setup lang="js">
 import { ref, onMounted, onUnmounted } from 'vue';
-import { useBreadcrumbsStore } from '@/store/breadcrumbs';
 import Navigation from "@/components/Navigation.vue";
-import SimpleWithChevrons from "@/components/application-ui/navigation/breadcrumbs/simple_with_chevrons.vue";
+import BackButton from "@/components/BackButton.vue";
 
 // Store breadcrumbs
-const breadcrumbsStore = useBreadcrumbsStore();
 
 // Reactive state for scroll
 const scrolled = ref(false);

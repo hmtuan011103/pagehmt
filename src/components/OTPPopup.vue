@@ -6,7 +6,7 @@
 
     <!-- Full screen OTP Modal -->
     <TransitionRoot appear :show="showPopup" as="template">
-      <Dialog as="div" @close="closePopup" class="relative z-50">
+      <Dialog as="div" class="relative z-50">
         <TransitionChild
             as="template"
             enter="duration-300 ease-out"
@@ -16,11 +16,11 @@
             leave-from="opacity-100"
             leave-to="opacity-0"
         >
-          <div class="fixed inset-0 bg-black/90" />
+          <div class="fixed inset-0 bg-black/90 max-w-md m-auto" />
         </TransitionChild>
 
         <div class="fixed inset-0 overflow-y-auto">
-          <div class="flex min-h-screen items-center justify-center p-4">
+          <div class="flex min-h-screen max-w-md m-auto items-center justify-center p-4">
             <TransitionChild
                 as="template"
                 enter="duration-300 ease-out"
@@ -64,14 +64,21 @@
                 <div class="flex gap-4 justify-center">
                   <button
                       @click="verifyOTP"
-                      class="px-4 py-2 text-white rounded-lg transition-all duration-200 font-medium"
+                      :disabled="isLoading"
+                      class="px-4 py-2 text-white rounded-lg transition-all duration-200 font-medium flex items-center justify-center gap-2"
                       :class="[
-                      `bg-${borderColor}-500/80`,
-                      `hover:bg-${borderColor}-500`,
-                    ]"
+                        `bg-${borderColor}-500/80`,
+                        `hover:bg-${borderColor}-500`,
+                        { 'opacity-50 cursor-not-allowed': isLoading }
+                      ]"
                   >
-                    {{ confirmButtonText }}
+                    <span v-if="!isLoading">{{ confirmButtonText }}</span>
+                    <svg v-else class="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                    </svg>
                   </button>
+
                   <button
                       @click="closePopup"
                       class="px-4 py-2 bg-gray-700/50 text-white rounded-lg hover:bg-gray-700 transition-all duration-200 font-medium transform hover:scale-105"
@@ -93,10 +100,12 @@ import { ref, defineProps } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, DialogDescription, TransitionRoot, TransitionChild } from '@headlessui/vue'
 import { useToast } from 'vue-toastification'
 import DynamicButton from "@/components/DynamicButton.vue"
+import {createApiService} from "@/services/apiService.js";
 
 const toast = useToast()
 
 const props = defineProps({
+  postId: { type: Number, required: true },
   buttonType: { type: String, default: 'love' },
   textContent: { type: String, default: 'Đi đến kỉ niệm' },
   widthButton: { type: String, default: 'w-full' },
@@ -105,13 +114,13 @@ const props = defineProps({
   confirmButtonText: { type: String, default: 'Xác nhận' },
   cancelButtonText: { type: String, default: 'Đóng' },
   borderColor: { type: String, default: 'red' },
-  correctOTP: { type: String, required: true },
   onSuccess: { type: Function, required: true }
 })
 
 const showPopup = ref(false)
 const otpDigits = ref(['', '', '', '', '', ''])
 const inputRefs = ref([])
+const isLoading = ref(false)
 
 const handleInput = (event, index) => {
   const value = event.target.value
@@ -144,31 +153,38 @@ const handlePaste = (event) => {
   })
 }
 
-const verifyOTP = () => {
-  const enteredOTP = otpDigits.value.join('')
+const verifyOTP = async () => {
+  if (isLoading.value) return;
 
+  const enteredOTP = otpDigits.value.join('')
   if (enteredOTP.length !== 6) {
-    toast.error('Vui lòng nhập đủ 6 số', {
-      timeout: 3000,
-      position: "top-right"
-    })
+    toast.error('Vui lòng nhập đủ 6 số', { timeout: 3000, position: "top-right" })
     return
   }
 
-  if (enteredOTP === props.correctOTP) {
-    toast.success('Mã chính xác!', {
-      timeout: 2000,
-      position: "top-right"
-    })
-    showPopup.value = false
-    props.onSuccess()
-  } else {
-    toast.error('Mã không chính xác', {
-      timeout: 3000,
-      position: "top-right"
-    })
+  isLoading.value = true
+  const idPost = props.postId;
+
+  try {
+    const response = await createApiService('posts').postDetail(idPost, enteredOTP);
+
+    if (response.status === 200) {
+      toast.success('Mã chính xác!', { timeout: 2000, position: "top-right" })
+      showPopup.value = false
+      props.onSuccess(response.content)
+    }
+  } catch (error) {
+    if (error.response?.status === 403) {
+      toast.error('Mã không chính xác', { timeout: 3000, position: "top-right" })
+    } else if (error.response?.status === 429) {
+      toast.error('Nhập sai quá nhiều lần, Thử lại sau', { timeout: 5000, position: "top-right" })
+    } else {
+      toast.error('Có lỗi xảy ra, vui lòng thử lại', { timeout: 3000, position: "top-right" })
+    }
     otpDigits.value = ['', '', '', '', '', '']
     inputRefs.value[0]?.focus()
+  } finally {
+    isLoading.value = false
   }
 }
 

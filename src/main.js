@@ -26,7 +26,7 @@ const options = {
     rtl: false,
     transition: "Vue-Toastification__bounce",
     maxToasts: 20,
-    newestOnTop: true
+    newestOnTop: true,
 }
 
 app.use(Toast, options)

@@ -6,16 +6,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useBreadcrumbsStore } from '@/store/breadcrumbs'
 import MemoryTimeline from '@/components/MemoryTimeline.vue'
 
-const breadcrumbsStore = useBreadcrumbsStore()
-
 onMounted(() => {
-  breadcrumbsStore.setPages([
-    { name: 'Người yêu', href: '/love', current: false },
-    { name: 'Làm quen em', href: '#', current: false },
-  ])
+  console.log(111);
 })
 
 const timelineItems = ref([

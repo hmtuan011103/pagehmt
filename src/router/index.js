@@ -6,6 +6,7 @@ const Love = () => import("@/views/Love.vue");
 const Friend = () => import("@/views/Friend.vue");
 const Another = () => import("@/views/Another.vue");
 const LoveShow = () => import("@/views/LovePage/LoveShow.vue");
+const LovePost = () => import("@/views/LovePage/LovePost.vue");
 
 const routes = [
     {
@@ -16,7 +17,8 @@ const routes = [
                 name: 'family',
                 component: Family,
                 meta: {
-                    layout: 'AppLayoutGuest'
+                    layout: 'AppLayoutGuest',
+                    slug: 'gia-dinh',
                 }
             }
         ]
@@ -27,7 +29,8 @@ const routes = [
             {
                 path: '/love',
                 meta: {
-                    layout: 'AppLayoutGuest'
+                    layout: 'AppLayoutGuest',
+                    slug: 'nguoi-yeu-tmh',
                 },
                 children: [
                     {
@@ -36,7 +39,12 @@ const routes = [
                         component: Love
                     },
                     {
-                        path: 'show',
+                        path: 'show-post',
+                        name: 'love-post',
+                        component: LovePost
+                    },
+                    {
+                        path: 'post-detail',
                         name: 'love-show',
                         component: LoveShow
                     }
@@ -52,7 +60,8 @@ const routes = [
                 name: 'friend',
                 component: Friend,
                 meta: {
-                    layout: 'AppLayoutGuest'
+                    layout: 'AppLayoutGuest',
+                    slug: 'ban-be',
                 }
             }
         ]
@@ -65,7 +74,8 @@ const routes = [
                 name: 'another',
                 component: Another,
                 meta: {
-                    layout: 'AppLayoutGuest'
+                    layout: 'AppLayoutGuest',
+                    slug: 'ki-niem',
                 }
             }
         ]
