@@ -169,8 +169,10 @@ const verifyOTP = async () => {
 
     if (response.status === 200) {
       toast.success('Mã chính xác!', { timeout: 2000, position: "top-right" })
+      otpDigits.value = ['', '', '', '', '', '']
+      inputRefs.value[0]?.focus()
       showPopup.value = false
-      props.onSuccess(response.content)
+      props.onSuccess(response)
     }
   } catch (error) {
     if (error.response?.status === 403) {
