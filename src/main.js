@@ -1,3 +1,4 @@
+import VueEasyLightbox from "vue-easy-lightbox";
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
@@ -11,6 +12,7 @@ const pinia = createPinia()
 
 app.use(pinia)
 app.use(router)
+app.use(VueEasyLightbox)
 const options = {
     position: "top-right",
     timeout: 3000,

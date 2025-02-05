@@ -5,17 +5,23 @@
            class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50 p-4"
       >
         <Transition name="scale">
-          <div class="bg-[#1a1a1a] text-white p-6 rounded-2xl shadow-xl border border-red-500/20 w-full max-w-lg relative">
+          <div class="bg-[#1a1a1a] text-white p-5 rounded-2xl shadow-xl border border-red-500/20 w-full max-w-lg relative">
             <h2 v-if="title" class="text-lg font-semibold text-red-400 mb-4 text-center">{{ title }}</h2>
-
-            <!-- Nội dung có thể cuộn -->
-            <div class="max-h-[60vh] overflow-y-auto text-gray-300 text-sm leading-relaxed pr-2" v-html="content"></div>
-
-            <!-- Nút đóng -->
-            <div class="mt-2 flex">
+            <div
+                class="max-h-[60vh] overflow-y-auto text-gray-300 text-sm leading-relaxed"
+                v-html="content"
+                @click="handleImageClick"
+                ref="contentRef"
+            ></div>
+            <vue-easy-lightbox
+                :visible="showLightbox"
+                :imgs="currentImage"
+                @hide="showLightbox = false"
+            ></vue-easy-lightbox>
+            <div class="mt-4 flex justify-end">
               <button
                   @click="closeModal"
-                  class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition">
+                  class="px-4 py-2 bg-gray-700/50 text-white rounded-lg hover:bg-gray-700 transition-all duration-200 font-medium transform hover:scale-105">
                 Đóng
               </button>
             </div>
@@ -27,44 +33,39 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 
-defineProps({
+const props = defineProps({
   isOpen: Boolean,
   title: String,
   content: String
 });
 
 const emit = defineEmits(["update:isOpen"]);
+const showLightbox = ref(false);
+const currentImage = ref('');
+const contentRef = ref(null);
 
 const closeModal = () => {
   emit("update:isOpen", false);
 };
+
+const handleImageClick = (event) => {
+  if (event.target.tagName === 'IMG') {
+    currentImage.value = event.target.src;
+    showLightbox.value = true;
+  }
+};
 </script>
 
-<style>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-.fade-enter-from, .fade-leave-to {
-  opacity: 0;
+<style scoped>
+
+.overflow-y-auto.text-gray-300.text-sm.leading-relaxed {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.scale-enter-active, .scale-leave-active {
-  transition: transform 0.3s ease;
+.overflow-y-auto.text-gray-300.text-sm.leading-relaxed::-webkit-scrollbar {
+ display: none;
 }
-.scale-enter-from, .scale-leave-to {
-  transform: scale(0.9);
-}
-
-.max-h-[60vh]::-webkit-scrollbar {
-               width: 5px;
-             }
-.max-h-[60vh]::-webkit-scrollbar-thumb {
-               background: rgba(255, 0, 0, 0.4);
-               border-radius: 10px;
-             }
-.max-h-[60vh]::-webkit-scrollbar-track {
-               background: transparent;
-             }
 </style>

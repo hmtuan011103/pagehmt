@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-3xl mx-auto py-8">
+  <div class="max-w-3xl mx-auto py-3">
     <!-- Timeline list -->
     <ol class="relative border-s border-[#dc2626] dark:border-[#dc2626]">
       <li v-for="(item, index) in items" :key="index" class="mb-10 ms-4">
@@ -7,7 +7,7 @@
                  dark:border-[#dc2626] dark:bg-[#dc2626]"></div>
 
         <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-400">
-          {{ item.date }}
+          {{ formatDateTime(item.time_posted) }}
         </time>
 
         <h4 class="text-lg font-semibold text-gray-900 dark:text-white">
@@ -19,44 +19,34 @@
         </p>
 
         <OTPPopup
+            :post-id="item.id"
             button-type="love"
             text-content="Xem"
             width-button=""
             title="Nhập mã để mở khóa kỷ niệm"
             description="Vui lòng nhập mã 6 số để xem kỷ niệm này"
             border-color="red"
-            correct-o-t-p="080125"
-            :on-success="() => openModal(item)"
+            key-api="timelines"
+            :on-success="handleSuccess"
         />
       </li>
     </ol>
+  </div>
 
-    <!-- Modal with dark theme -->
-    <div v-if="showModal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-      <div class="bg-[#1F1F1F] p-6 rounded-lg max-w-2xl w-full mx-4 border border-[#dc2626]/20">
-        <div class="flex flex-col">
-          <h2 class="text-2xl font-bold mb-4 text-white">{{ selectedItem?.title }}</h2>
-          <div class="mb-4">
-            <p class="text-gray-300">{{ selectedItem?.description }}</p>
-          </div>
-          <div class="flex justify-end">
-            <button
-                @click="closeModal"
-                class="px-4 py-2 bg-[#dc2626] text-white rounded hover:bg-[#dc2626]/80 transition-colors"
-            >
-              Đóng
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="mx-2">
+    <ModalPopup
+        v-model:isOpen="isModalOpen"
+        :title="titleModal"
+        :content="modalContent"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import DynamicButton from "@/components/DynamicButton.vue";
 import OTPPopup from "@/components/OTPPopup.vue";
+import {formatDateTime} from "@/utils/helpers.js";
+import ModalPopup from "@/components/ModalPopup.vue";
 
 const props = defineProps({
   items: {
@@ -66,18 +56,14 @@ const props = defineProps({
   }
 });
 
-// Modal state
-const showModal = ref(false);
-const selectedItem = ref(null);
+const isModalOpen = ref(false);
+const modalContent = ref("");
+const titleModal = ref("");
 
-// Modal actions
-const openModal = (item) => {
-  selectedItem.value = item;
-  showModal.value = true;
+const handleSuccess = (response) => {
+    modalContent.value = response.data.content;
+    isModalOpen.value = true;
+    titleModal.value = response.data.title;
 };
 
-const closeModal = () => {
-  showModal.value = false;
-  selectedItem.value = null;
-};
 </script>

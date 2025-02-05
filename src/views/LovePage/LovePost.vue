@@ -63,9 +63,13 @@ import SkeletonPost from "@/components/SkeletonPost.vue";
 import ErrorLoadingApi from "@/components/ErrorLoadingApi.vue";
 import ModalPopup from "@/components/ModalPopup.vue";
 
+defineProps({
+  slug: String
+});
+
 const router = useRouter();
 const route = useRoute();
-const slug = route.query.slug;
+const slug = route.params.slug;
 const data = ref([]);
 const isLoading = ref(true);
 const hasError = ref(false);
@@ -101,7 +105,7 @@ const handleSuccess = (response) => {
     isModalOpen.value = true;
     titleModal.value = response.data.title;
   } else {
-    router.push({ name: 'love-show', params: { id: response.data.content } });
+    router.push({ name: 'love-show', params: { code: response.data.content } });
   }
 };
 

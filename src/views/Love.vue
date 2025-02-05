@@ -42,15 +42,14 @@
 
 <script setup>
 import {onMounted, onUnmounted, ref} from 'vue';
-import {useRoute, useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 import {createApiService} from '@/services/apiService';
 import DynamicButton from "@/components/DynamicButton.vue";
 import SkeletonCategory from "@/components/SkeletonCategory.vue";
 import ErrorLoadingApi from "@/components/ErrorLoadingApi.vue";
 
 const router = useRouter();
-const route = useRoute();
-const slug = route.meta.slug;
+const slug = 'nguoi-yeu-tmh';
 const data = ref([]);
 const isLoading = ref(true);
 const hasError = ref(false);
@@ -77,8 +76,8 @@ onUnmounted(() => {
   console.log(`${getCurrentInstanceName()} unmounted`);
 });
 
-const navigateToMemory = (slug) => {
-  router.push({name: 'love-post', query: {slug}});
+const navigateToMemory = (slugPost) => {
+  router.push({name: 'love-post', params: {slug: slugPost}});
 };
 
 const getCurrentInstanceName = () => {

@@ -10,83 +10,48 @@ const LovePost = () => import("@/views/LovePage/LovePost.vue");
 
 const routes = [
     {
-        group: 'family',
-        routes: [
-            {
-                path: '/',
-                name: 'family',
-                component: Family,
-                meta: {
-                    layout: 'AppLayoutGuest',
-                    slug: 'gia-dinh',
-                }
-            }
-        ]
+        path: '/',
+        name: 'family',
+        component: Family,
+        meta: { layout: 'AppLayoutGuest' }
     },
     {
-        group: 'love',
-        routes: [
-            {
-                path: '/love',
-                meta: {
-                    layout: 'AppLayoutGuest',
-                    slug: 'nguoi-yeu-tmh',
-                },
-                children: [
-                    {
-                        path: '',
-                        name: 'love',
-                        component: Love
-                    },
-                    {
-                        path: 'show-post',
-                        name: 'love-post',
-                        component: LovePost
-                    },
-                    {
-                        path: 'post-detail',
-                        name: 'love-show',
-                        component: LoveShow
-                    }
-                ]
-            }
-        ]
+        path: '/love',
+        name: 'love',
+        component: Love,
+        meta: { layout: 'AppLayoutGuest' }
     },
     {
-        group: 'friend',
-        routes: [
-            {
-                path: '/friend',
-                name: 'friend',
-                component: Friend,
-                meta: {
-                    layout: 'AppLayoutGuest',
-                    slug: 'ban-be',
-                }
-            }
-        ]
+        path: '/love/:slug',
+        name: 'love-post',
+        component: LovePost,
+        props: true,
+        meta: { layout: 'AppLayoutGuest' }
     },
     {
-        group: 'another',
-        routes: [
-            {
-                path: '/another',
-                name: 'another',
-                component: Another,
-                meta: {
-                    layout: 'AppLayoutGuest',
-                    slug: 'ki-niem',
-                }
-            }
-        ]
+        path: '/love/:slug/:code',
+        name: 'love-show',
+        component: LoveShow,
+        props: true,
+        meta: { layout: 'AppLayoutGuest' }
+    },
+    {
+        path: '/friend',
+        name: 'friend',
+        component: Friend,
+        meta: { layout: 'AppLayoutGuest' }
+    },
+    {
+        path: '/another',
+        name: 'another',
+        component: Another,
+        meta: { layout: 'AppLayoutGuest' }
     }
 ];
 
-const flattenedRoutes = routes.flatMap(group => group.routes);
-
 const router = createRouter({
     history: createWebHistory('/'),
-    routes: flattenedRoutes
+    routes: routes
 });
 
 router.beforeEach(loadLayoutMiddleware)

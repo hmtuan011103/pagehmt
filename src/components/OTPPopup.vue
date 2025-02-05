@@ -112,7 +112,8 @@ const props = defineProps({
   confirmButtonText: { type: String, default: 'Xác nhận' },
   cancelButtonText: { type: String, default: 'Đóng' },
   borderColor: { type: String, default: 'red' },
-  onSuccess: { type: Function, required: true }
+  onSuccess: { type: Function, required: true },
+  keyApi: { type: String, default: 'posts' },
 })
 
 const toast = useToast()
@@ -165,7 +166,7 @@ const verifyOTP = async () => {
   const idPost = props.postId;
 
   try {
-    const response = await createApiService('posts').postDetail(idPost, enteredOTP);
+    const response = await createApiService(props.keyApi).postDetail(idPost, enteredOTP);
 
     if (response.status === 200) {
       toast.success('Mã chính xác!', { timeout: 2000, position: "top-right" })
