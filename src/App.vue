@@ -48,3 +48,9 @@ onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
 </script>
+
+<style>
+body {
+  background: radial-gradient(circle at top, #2c2c2c, #1a1a1a);
+}
+</style>

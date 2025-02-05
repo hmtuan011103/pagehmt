@@ -26,17 +26,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { computed, ref, watch} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { ChevronLeftIcon } from '@heroicons/vue/20/solid';
 import { daysSinceJan8_2025 } from '@/utils/helpers.js';
-
 
 const daysPassed = daysSinceJan8_2025();
 const router = useRouter();
 const route = useRoute();
 
-const hasHistory = ref(false);
+const hasHistory = ref(!!router.options.history?.state?.back);
+
+watch(route, () => {
+  hasHistory.value = !!router.options.history?.state?.back;
+}, { immediate: true });
 
 const mainRoutes = {
   family: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
@@ -63,10 +66,6 @@ const mainRoutes = {
 
 const isMainRoute = computed(() => Object.keys(mainRoutes).includes(route.name));
 const currentPageIcon = computed(() => mainRoutes[route.name] || '');
-
-onMounted(() => {
-  hasHistory.value = window.history.length > 1;
-});
 
 const goBack = () => {
   router.back();

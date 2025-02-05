@@ -60,8 +60,20 @@
     </div>
   </div>
 
-  <div v-else class="text-center py-2 text-gray-400">
+  <!-- Khi không có dữ liệu -->
+  <div v-else-if="!hasError" class="text-center py-2 text-gray-400">
     Không có dữ liệu
+  </div>
+
+  <!-- Khi có lỗi -->
+  <div v-else class="text-center py-5 text-red-400">
+    <p>Không thể tải dữ liệu. Vui lòng thử lại!</p>
+    <button
+        @click="fetchLoveMemories"
+        class="mt-3 px-4 py-2 bg-red-600 text-white font-medium rounded-lg
+               hover:bg-red-700 transition-all">
+      Thử lại
+    </button>
   </div>
 </template>
 
@@ -76,13 +88,17 @@ const route = useRoute();
 const slug = route.meta.slug;
 const data = ref([]);
 const isLoading = ref(true);
+const hasError = ref(false);
 
 const fetchLoveMemories = async () => {
+  isLoading.value = true;
+  hasError.value = false;
   try {
     const response = await createApiService('categories').list({slug});
     data.value = response.data;
   } catch (error) {
     console.error(error);
+    hasError.value = true;
   } finally {
     isLoading.value = false;
   }

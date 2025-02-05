@@ -102,8 +102,6 @@ import { useToast } from 'vue-toastification'
 import DynamicButton from "@/components/DynamicButton.vue"
 import {createApiService} from "@/services/apiService.js";
 
-const toast = useToast()
-
 const props = defineProps({
   postId: { type: Number, required: true },
   buttonType: { type: String, default: 'love' },
@@ -117,6 +115,7 @@ const props = defineProps({
   onSuccess: { type: Function, required: true }
 })
 
+const toast = useToast()
 const showPopup = ref(false)
 const otpDigits = ref(['', '', '', '', '', ''])
 const inputRefs = ref([])
