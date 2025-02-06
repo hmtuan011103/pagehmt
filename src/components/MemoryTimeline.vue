@@ -3,7 +3,7 @@
     <!-- Timeline list -->
     <ol class="relative border-s border-[#dc2626] dark:border-[#dc2626]">
       <li v-for="(item, index) in items" :key="index" class="mb-10 ms-4">
-        <div class="absolute w-3 h-3 bg-[#dc2626] rounded-full mt-1.5 -start-1.5 border border-white
+        <div class="absolute w-3 h-3 bg-[#dc2626] rounded-full -start-1.5 border border-white
                  dark:border-[#dc2626] dark:bg-[#dc2626]"></div>
 
         <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-400">

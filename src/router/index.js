@@ -42,7 +42,7 @@ const routes = [
             if (authStore.isVerified(slug, code)) {
                 next();
             } else {
-                next('/');
+                next('/love');
             }
         }
     },
