@@ -62,6 +62,7 @@ import {formatDateTime} from "@/utils/helpers.js";
 import SkeletonPost from "@/components/SkeletonPost.vue";
 import ErrorLoadingApi from "@/components/ErrorLoadingApi.vue";
 import ModalPopup from "@/components/ModalPopup.vue";
+import { useAuthStore } from '@/store/authStore.js';
 
 defineProps({
   slug: String
@@ -100,14 +101,21 @@ onUnmounted(() => {
 });
 
 const handleSuccess = (response) => {
+  const authStore = useAuthStore();
+
   if (!response.data.is_timeline) {
     modalContent.value = response.data.content;
     isModalOpen.value = true;
     titleModal.value = response.data.title;
   } else {
-    router.push({ name: 'love-show', params: { code: response.data.content } });
+    authStore.verifySlug(route.params.slug, response.data.content);
+    router.push({
+      name: 'love-show',
+      params: { slug: route.params.slug, code: response.data.content }
+    });
   }
 };
+
 
 const getCurrentInstanceName = () => {
   return 'Love';

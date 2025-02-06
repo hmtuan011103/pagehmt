@@ -1,6 +1,6 @@
 <template>
   <div v-if="isLoading">
-    <SkeletonCategory/>
+    <SkeletonTimeline/>
   </div>
 
   <div class="" v-else-if="timelineItems.length > 0">
@@ -21,7 +21,7 @@ import { ref, onMounted } from 'vue'
 import MemoryTimeline from '@/components/MemoryTimeline.vue'
 import {createApiService} from '@/services/apiService';
 import {useRoute} from "vue-router";
-import SkeletonCategory from "@/components/SkeletonCategory.vue";
+import SkeletonTimeline from "@/components/SkeletonTimeline.vue";
 import ErrorLoadingApi from "@/components/ErrorLoadingApi.vue";
 
 const route = useRoute()

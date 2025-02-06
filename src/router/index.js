@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {loadLayoutMiddleware} from "@/router/middleware/loadLayoutMiddleware";
+import { useAuthStore } from '@/store/authStore.js';
 
 const Family = () => import("@/views/Family.vue");
 const Love = () => import("@/views/Love.vue");
@@ -33,7 +34,17 @@ const routes = [
         name: 'love-show',
         component: LoveShow,
         props: true,
-        meta: { layout: 'AppLayoutGuest' }
+        meta: { layout: 'AppLayoutGuest' },
+        beforeEnter: (to, from, next) => {
+            const authStore = useAuthStore();
+            const { slug, code } = to.params;
+
+            if (authStore.isVerified(slug, code)) {
+                next();
+            } else {
+                next('/');
+            }
+        }
     },
     {
         path: '/friend',

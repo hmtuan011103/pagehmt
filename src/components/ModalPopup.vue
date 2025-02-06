@@ -6,7 +6,7 @@
       >
         <Transition name="scale">
           <div class="bg-[#1a1a1a] text-white p-5 rounded-2xl shadow-xl border border-red-500/20 w-full max-w-lg relative">
-            <h2 v-if="title" class="text-lg font-semibold text-red-400 mb-4 text-center">{{ title }}</h2>
+            <h2 v-if="title" class="text-lg font-semibold text-white mb-4 text-center">{{ title }}</h2>
             <div
                 class="max-h-[60vh] overflow-y-auto text-gray-300 text-sm leading-relaxed"
                 v-html="content"
@@ -21,7 +21,7 @@
             <div class="mt-4 flex justify-end">
               <button
                   @click="closeModal"
-                  class="px-4 py-2 bg-gray-700/50 text-white rounded-lg hover:bg-gray-700 transition-all duration-200 font-medium transform hover:scale-105">
+                  class="px-4 py-2 bg-gray-700/50 text-white rounded-lg hover:bg-gray-700 transition-all duration-200 transform hover:scale-105">
                 Đóng
               </button>
             </div>

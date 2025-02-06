@@ -1,10 +1,6 @@
-<!-- OTPPopup.vue -->
 <template>
   <div>
-    <!-- Trigger button -->
     <DynamicButton :type="buttonType" :text="textContent" :width="widthButton" @click="showPopup = true" />
-
-    <!-- Full screen OTP Modal -->
     <TransitionRoot appear :show="showPopup" as="template">
       <Dialog as="div" class="relative z-50">
         <TransitionChild
@@ -40,7 +36,6 @@
                   </DialogDescription>
                 </div>
 
-                <!-- OTP Input -->
                 <div class="flex gap-2 justify-center mb-8">
                   <template v-for="(digit, index) in 6" :key="index">
                     <input
@@ -60,7 +55,6 @@
                   </template>
                 </div>
 
-                <!-- Buttons -->
                 <div class="flex gap-4 justify-center">
                   <button
                       @click="verifyOTP"
@@ -164,7 +158,6 @@ const verifyOTP = async () => {
 
   isLoading.value = true
   const idPost = props.postId;
-
   try {
     const response = await createApiService(props.keyApi).postDetail(idPost, enteredOTP);
 

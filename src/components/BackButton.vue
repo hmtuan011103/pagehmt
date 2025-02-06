@@ -1,7 +1,6 @@
 <template>
   <div class="w-full text-center relative">
     <template v-if="!isMainRoute">
-      <!-- Nếu có lịch sử điều hướng -->
       <button
           v-if="hasHistory"
           @click="goBack"
@@ -12,7 +11,6 @@
       </button>
     </template>
 
-    <!-- Nếu đang ở route chính -->
     <div v-else class="flex items-center justify-between">
       <div v-html="currentPageIcon" class="size-8 text-[#FF6F61]"></div>
       <div v-if="route.name === 'love'" class="text-[#FF6F61]">
