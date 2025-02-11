@@ -3,8 +3,8 @@ import axios from 'axios';
 import CryptoJS from 'crypto-js';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 const IS_PRODUCTION = import.meta.env.PROD;
+const API_BASE_URL = IS_PRODUCTION ? import.meta.env.VITE_API_BASE_URL_PROD : import.meta.env.VITE_API_BASE_URL;
 
 // Create axios instance
 const apiClient = axios.create({
@@ -25,10 +25,14 @@ apiClient.interceptors.request.use(
         // Add timestamp and signature in production
         if (IS_PRODUCTION) {
             const timestamp = Date.now().toString();
+            const url = new URL(config.baseURL + config.url);
+            const path = url.pathname;
+
             const signature = CryptoJS.HmacSHA256(
-                timestamp + config.url,
-                API_KEY // Using API key itself as secret
-            ).toString();
+                timestamp + path,
+                API_KEY
+            ).toString(CryptoJS.enc.Hex);
+
 
             config.headers['X-Timestamp'] = timestamp;
             config.headers['X-Signature'] = signature;
