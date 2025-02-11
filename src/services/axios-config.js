@@ -4,7 +4,7 @@ import CryptoJS from 'crypto-js';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const IS_PRODUCTION = import.meta.env.PROD;
-const API_BASE_URL = IS_PRODUCTION ? import.meta.env.VITE_API_BASE_URL_PROD : import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Create axios instance
 const apiClient = axios.create({
