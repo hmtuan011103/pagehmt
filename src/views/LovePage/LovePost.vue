@@ -20,8 +20,13 @@
                       group-hover:opacity-100 rounded-2xl">
         </div>
         <div class="relative z-10">
+          <div class="text-red-400 text-sm mb-4 drop-shadow-md flex items-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+            <p>{{ formatDateTime(item.time_posted) }}</p>
+          </div>
           <h3 class="text-xl font-semibold text-white mb-3">{{ item.title }}</h3>
-          <div class="text-red-400 text-sm mb-4">{{ formatDateTime(item.time_posted) }}</div>
           <p class="text-gray-300 text-sm leading-relaxed mb-6">{{ item.description }}</p>
           <div class="max-w-md m-auto">
             <OTPPopup

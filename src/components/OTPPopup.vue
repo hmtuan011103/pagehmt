@@ -57,12 +57,18 @@
 
                 <div class="flex gap-4 justify-center">
                   <button
+                      @click="closePopup"
+                      class="px-4 py-2 bg-gray-700/50 text-white rounded-lg hover:bg-gray-700 transition-all duration-200 font-medium transform"
+                  >
+                    {{ cancelButtonText }}
+                  </button>
+                  <button
                       @click="verifyOTP"
                       :disabled="isLoading"
                       class="px-4 py-2 text-white rounded-lg transition-all duration-200 font-medium flex items-center justify-center gap-2"
                       :class="[
-                        `bg-${borderColor}-500/80`,
-                        `hover:bg-${borderColor}-500`,
+                        `bg-${borderColor}-500`,
+                        `hover:bg-${borderColor}-700`,
                         { 'opacity-50 cursor-not-allowed': isLoading }
                       ]"
                   >
@@ -71,13 +77,6 @@
                       <circle cx="12" cy="12" r="10" />
                       <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
                     </svg>
-                  </button>
-
-                  <button
-                      @click="closePopup"
-                      class="px-4 py-2 bg-gray-700/50 text-white rounded-lg hover:bg-gray-700 transition-all duration-200 font-medium transform hover:scale-105"
-                  >
-                    {{ cancelButtonText }}
                   </button>
                 </div>
               </DialogPanel>
