@@ -40,6 +40,8 @@
                   <template v-for="(digit, index) in 6" :key="index">
                     <input
                         type="password"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
                         v-model="otpDigits[index]"
                         @input="handleInput($event, index)"
                         @keydown="handleKeydown($event, index)"
