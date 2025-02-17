@@ -9,7 +9,7 @@
             <h2 v-if="title" class="text-lg font-semibold text-white mb-4 text-center">{{ title }}</h2>
             <div
                 class="max-h-[60vh] overflow-y-auto text-gray-300 text-sm leading-relaxed"
-                v-html="content"
+                v-html="sanitizedContent"
                 @click="handleImageClick"
                 ref="contentRef"
             ></div>
@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref } from 'vue';
+import { defineProps, defineEmits, ref, computed } from 'vue';
 
 const props = defineProps({
   isOpen: Boolean,
@@ -44,7 +44,6 @@ const props = defineProps({
 const emit = defineEmits(["update:isOpen"]);
 const showLightbox = ref(false);
 const currentImage = ref('');
-const contentRef = ref(null);
 
 const closeModal = () => {
   emit("update:isOpen", false);
@@ -56,6 +55,27 @@ const handleImageClick = (event) => {
     showLightbox.value = true;
   }
 };
+
+const sanitizedContent = computed(() => {
+  if (!props.content) return '';
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(props.content, "text/html");
+
+  doc.querySelectorAll("figure a").forEach(a => {
+    const img = a.querySelector("img");
+    if (img) {
+      img.style.margin = "10px 0";
+      a.replaceWith(img);
+    } else {
+      a.remove();
+    }
+  });
+
+  doc.querySelectorAll("figcaption").forEach(figcaption => figcaption.remove());
+
+  return doc.body.innerHTML;
+});
 </script>
 
 <style scoped>
