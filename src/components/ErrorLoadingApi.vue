@@ -8,9 +8,8 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: 'ErrorLoadingApi',
-  emits: ['click']
-}
+<script setup>
+import { defineEmits } from 'vue';
+
+defineEmits(['click']);
 </script>

@@ -68,24 +68,24 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: 'DynamicButton',
-  props: {
-    type: {
-      type: String,
-      default: 'other',
-      validator: (value) => ['family', 'love', 'friend', 'other'].includes(value)
-    },
-    text: {
-      type: String,
-      default: 'Đi đến kỉ niệm'
-    },
-    width: {
-      type: String,
-      default: 'w-full '
-    }
+<script setup>
+import { defineProps, defineEmits } from 'vue';
+
+defineProps({
+  type: {
+    type: String,
+    default: 'other',
+    validator: (v) => ['family', 'love', 'friend', 'other'].includes(v)
   },
-  emits: ['click']
-}
+  text: {
+    type: String,
+    default: 'Đi đến kỉ niệm'
+  }, 
+  width: {
+    type: String,
+    default: 'w-full '
+  }
+});
+
+defineEmits(['click'])
 </script>
