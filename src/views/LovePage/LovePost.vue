@@ -214,7 +214,7 @@ const handleScroll = () => {
 const handleSuccess = (response) => {
   const authStore = useAuthStore();
 
-  if (!response.data.is_timeline) {
+  if (response.data.is_timeline == 0) {
     modalContent.value = response.data.content;
     isModalOpen.value = true;
     titleModal.value = response.data.title;
